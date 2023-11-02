@@ -12,8 +12,8 @@ function App() {
     <>
     <Router>
       <Routes>
-        <Route path='/quiz' element={<Quiz/>}/>
-        <Route path='/' element={<Welcome/>}/>
+        <Route path='/' element={<Quiz/>}/>
+        <Route path='/welcome' element={<Welcome/>}/>
       </Routes>
     </Router>
     </>
