@@ -2,6 +2,18 @@
 
 ## Demo link https://agent-insights-assighnment.vercel.app/
 
+
+### Installation
+
+```bash
+git clone https://github.com/kanishkcs/agentInsights-assighnment
+cd agentInsights-assighnment
+npm install
+npm run dev
+```
+
+This will start the development server on port 3000. You can then open the app in your browser at `http://localhost:5173`.
+
 ### Features
 
 * Vite + React
@@ -17,17 +29,8 @@
 * Added a progress bar to track the user's progress through the quiz
 * Added the Shuffle of Questions so that user will be given Random Question Each Time
 
-
-### Installation
-
-```bash
-git clone https://github.com/kanishkcs/agentInsights-assighnment
-cd agentInsights-assighnment
-npm install
-npm run dev
-```
-
-This will start the development server on port 3000. You can then open the app in your browser at `http://localhost:5173`.
+## No UI library is Used All the designs are implemented using Pure CSS
+ * Styled Components
 
 ### Usage
 
