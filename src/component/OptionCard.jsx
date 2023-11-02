@@ -16,14 +16,17 @@ const Wrapper = styled.div`
   align-items: center;
   color: ${(props) => (props.isSelected ? " white" : "black")};
   background-color: ${(props) => (props.isSelected ? " #45C486;" : "white")};
-  @media screen and (max-width: 1000px) {
-    width: 380px;
-    height: 60px;
-  }
+ 
   &:hover{
     transform: scale(1.01);
   }
   transition: 0.1s ease-in all;
+
+  @media screen and (max-width: 1000px) {
+    width: 80vw;
+    height: 68px;
+  }
+  
 `;
 
 const Left = styled.div`

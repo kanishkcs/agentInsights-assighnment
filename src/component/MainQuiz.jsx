@@ -11,10 +11,24 @@ const Question = styled.span`
   font-style: normal;
   font-weight: 600;
   line-height: 38px; /* 135.714% */
-`;
-const Option = styled.div``;
 
-const OptionsDiv = styled.div``
+  @media screen and (max-width: 1000px) {
+    font-size: 16px;
+    margin-left: 20px;
+  }
+`;
+const Option = styled.div`
+
+@media screen and (max-width:1000px){
+   
+   
+  }
+`;
+
+const OptionsDiv = styled.div`
+
+
+`
 const MainQuiz = ({animateClass,questionNumber,questions,setSelectedOption,selectedOption}) => {
   return (
     <>

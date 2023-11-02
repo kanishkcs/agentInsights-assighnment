@@ -21,12 +21,13 @@ const Wrapper = styled.div`
 const TopBar = styled.div`
   display: flex;
   justify-content: space-around;
-  margin-top: 2rem;
+  margin-top: 1rem;
   width: 100%;
+  margin-bottom: 2rem;
 `;
 
 const TopBarHeading = styled.span`
-  font-size: 2rem;
+  font-size: 1.6rem;
   @media screen and (max-width: 1000px) {
     font-size: 16px;
   }
@@ -34,17 +35,6 @@ const TopBarHeading = styled.span`
 
 
 
-const Question = styled.span`
-  color: #191d63;
-  text-align: center;
-  font-family: General Sans;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 38px; /* 135.714% */
-`;
-
-const QuestionTimer = styled.div``;
 
 const NextButton = styled.button`
 border-radius: 8px;
@@ -68,11 +58,14 @@ cursor: pointer;
 const Middle = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 90%;
   text-align: center;
   align-items: center;
-  justify-content: center;
+ 
   gap: 2rem;
+  @media screen and (max-width:1000px){
+    width: 60%;
+  }
 `;
 const Bottom = styled.div`
 margin-top: 1rem;
