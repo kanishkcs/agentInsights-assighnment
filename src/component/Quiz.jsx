@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { data } from "../assets/data";
-import OptionCard from "./OptionCard";
+
 import "animate.css";
 import CountDown from "./CountDown";
-import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { useNavigate } from "react-router-dom";
 
+
+import ProgressBar from "./ProgressBar";
+import MainQuiz from "./MainQuiz";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 70vh;
+  min-height: 70vh;
+  
 `;
 
 const TopBar = styled.div`
@@ -28,14 +32,7 @@ const TopBarHeading = styled.span`
   }
 `;
 
-const QuestionDiv = styled.div``;
 
-const OptionsDiv = styled.div`
-
-width: auto;
-margin-left: 10px;
-
-`;
 
 const Question = styled.span`
   color: #191d63;
@@ -49,9 +46,24 @@ const Question = styled.span`
 
 const QuestionTimer = styled.div``;
 
-const NextButton = styled.button``;
+const NextButton = styled.button`
+border-radius: 8px;
+background: #31CD63;
+border: none;
+width: 100%;
+height: 40px;
+margin-top:2rem;
+color: white;
+cursor: pointer;
+&:enabled:hover{
+    transform: scale(1.05);
+}
+&:disabled{
+    background: #747475;
+}
+`;
 
-const ProgressBar = styled.div``;
+
 
 const Middle = styled.div`
   display: flex;
@@ -62,9 +74,13 @@ const Middle = styled.div`
   justify-content: center;
   gap: 2rem;
 `;
-const Bottom = styled.div``;
+const Bottom = styled.div`
+margin-top: 1rem;
 
-const Option = styled.div``;
+
+
+`;
+
 
 function shuffleArray(array) {
   const shuffledArray = [...array];
@@ -87,12 +103,13 @@ left: 5%;
 
 const Quiz = () => {
   const [score, setScore] = useState(0);
-
   const [questionNumber, setQuestionNumber] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [newQuiz, setNewQuiz] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [animateClass, setAnimateClass] = useState("main-div");
+
+    const navigate = useNavigate()
 
   useEffect(() => {
     setQuestions(shuffleArray(data));
@@ -112,11 +129,12 @@ const Quiz = () => {
   const checkAnswer = (e) => {
     if (e == questions[questionNumber].answer) {
       setScore((score) => score + 10);
-      console.log(item, questions[questionNumber].answer);
+      
     }
-    console.log(item, questions[questionNumber].answer);
+
   };
 
+ 
   return (
     <>
       <Wrapper>
@@ -125,62 +143,36 @@ const Quiz = () => {
         </TopBar>
         <Middle >
         <Timer>
-        <CountdownCircleTimer
-          size={80}
-            key={questionNumber}
-            isPlaying
-            duration={25}
-            colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-            colorsTime={[15, 10, 5, 0]}
-            onComplete={() => ({
-              shouldRepeat: true,
-              delay: 0,
-              newInitialRemainingTime: 25,
-            })}
-            onUpdate={(remainingTime) => {
-              if (remainingTime == 0) {
-                changeQuestion();
-              }
-            }}
-            className={animateClass}
-          >
-            {CountDown}
-          </CountdownCircleTimer>
+        <CountDown questionNumber={questionNumber} setQuestionNumber={setQuestionNumber}/>
         </Timer>
+          <MainQuiz animateClass={animateClass} questions={questions} questionNumber={questionNumber} selectedOption={selectedOption} setSelectedOption={setSelectedOption}/>
           
-          <QuestionDiv className={animateClass}>
-            <Question>{questions[questionNumber]?.question}</Question>
-          </QuestionDiv>
-          <OptionsDiv className={animateClass}>
-            {questions[questionNumber]?.options.map((item) => {
-              return (
-                <Option
-                  key={item}
-                  onClick={() => {
-                    setSelectedOption(item);
-                    setUserAnswer(item);
-                  }}
-                >
-                  <OptionCard
-                    question={item}
-                    isSelected={selectedOption == item}
-                    option={questions[questionNumber].options.indexOf(item)}
-                  />
-                </Option>
-              );
-            })}
-          </OptionsDiv>
         </Middle>
         <Bottom>
-          <NextButton
+        <ProgressBar progress={questionNumber}/>
+          {questionNumber==10?(<NextButton
             onClick={() => {
-              changeQuestion();
-              setAnimateClass("");
+
+              checkAnswer(selectedOption)
+              console.log(score)
             }}
             disabled={selectedOption != null ? false : true}
           >
-            Change Question
+            Finish Quiz
+          </NextButton>):(<NextButton
+            onClick={() => {
+            checkAnswer(selectedOption)
+            setSelectedOption(null)
+              changeQuestion();
+              setAnimateClass("");
+              
+            }}
+            disabled={selectedOption != null ? false : true}
+          >
+            Next Question
           </NextButton>
+          )}
+          
         </Bottom>
       </Wrapper>
     </>

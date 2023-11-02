@@ -20,6 +20,10 @@ const Wrapper = styled.div`
     width: 380px;
     height: 60px;
   }
+  &:hover{
+    transform: scale(1.01);
+  }
+  transition: 0.1s ease-in all;
 `;
 
 const Left = styled.div`
