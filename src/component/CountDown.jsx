@@ -37,7 +37,7 @@ const CountDown = ({questionNumber,setQuestionNumber}) => {
             })}
             onUpdate={(remainingTime) => {
               if (remainingTime == 0) {
-                setQuestionNumber(questionNumber=>questionNumber+1)
+                if(questionNumber!=10) setQuestionNumber(questionNumber=>questionNumber+1)
               }
             }}
             

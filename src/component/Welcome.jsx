@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import { useNavigate } from 'react-router-dom'
 
 const Wrapper = styled.div`
 width: 100%;
@@ -65,6 +65,7 @@ cursor: pointer;
 `
 
 const Welcome = ({name,setName}) => {
+    const navigat= useNavigate()
   return (
     <>
     <Wrapper>
@@ -72,7 +73,7 @@ const Welcome = ({name,setName}) => {
 
     
         <NameInput type='text' placeholder='Enter Your Name' value={name} onChange={(e)=>setName(e.target.value)}/>
-        <StartQuiz>Start Quiz</StartQuiz>
+        <StartQuiz onClick={()=>navigat("/quiz")}>Start Quiz</StartQuiz>
         </WelcomeDiv>
     </Wrapper>
 

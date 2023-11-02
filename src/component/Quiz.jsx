@@ -115,6 +115,7 @@ const Quiz = () => {
     setQuestions(shuffleArray(data));
   }, [newQuiz]);
   useEffect(() => {
+    
     setAnimateClass("main-div");
   }, [questionNumber]);
 
@@ -128,12 +129,16 @@ const Quiz = () => {
 
   const checkAnswer = (e) => {
     if (e == questions[questionNumber].answer) {
-      setScore((score) => score + 10);
+      setScore((score) => score + 1);
       
     }
 
   };
 
+  const finishQuiz = ()=>{
+    
+    navigate(`/result/${score}`)
+  }
  
   return (
     <>
@@ -151,10 +156,10 @@ const Quiz = () => {
         <Bottom>
         <ProgressBar progress={questionNumber}/>
           {questionNumber==10?(<NextButton
-            onClick={() => {
+            onClick={() => { 
+              checkAnswer(selectedOption) 
 
-              checkAnswer(selectedOption)
-              console.log(score)
+              finishQuiz();
             }}
             disabled={selectedOption != null ? false : true}
           >

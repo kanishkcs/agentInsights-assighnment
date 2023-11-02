@@ -13,9 +13,9 @@ function App() {
     <>
     <Router>
       <Routes>
-        <Route path='/' element={<Quiz/>}/>
-        <Route path='/welcome' element={<Welcome/>}/>
-        <Route path='/result' element={<ShowResult/>}/>
+        <Route path='/' element={<Welcome setName={setName}/>}/>
+        <Route path='/quiz' element={<Quiz/>}/>
+        <Route path='/result/:id' element={<ShowResult name={name}/>}/>
       </Routes>
     </Router>
     </>
