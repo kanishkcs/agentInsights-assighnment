@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Welcome from './component/Welcome'
 import { HashRouter as Router , Routes ,Route } from 'react-router-dom'
 import Quiz from './component/Quiz'
-
+import 'animate.css';
 
 function App() {
   const [name,setName] = useState("")

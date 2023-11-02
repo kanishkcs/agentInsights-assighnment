@@ -1,7 +1,10 @@
-import { startTransition, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { data } from "../assets/data";
 import OptionCard from "./OptionCard";
+import "animate.css";
+import CountDown from "./CountDown";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 const Wrapper = styled.div`
   display: flex;
@@ -9,7 +12,6 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 70vh;
-  
 `;
 
 const TopBar = styled.div`
@@ -26,12 +28,14 @@ const TopBarHeading = styled.span`
   }
 `;
 
-
-
-
 const QuestionDiv = styled.div``;
 
-const OptionsDiv = styled.div``;
+const OptionsDiv = styled.div`
+
+width: auto;
+margin-left: 10px;
+
+`;
 
 const Question = styled.span`
   color: #191d63;
@@ -50,7 +54,6 @@ const NextButton = styled.button``;
 const ProgressBar = styled.div``;
 
 const Middle = styled.div`
-  
   display: flex;
   flex-direction: column;
   width: 50%;
@@ -72,17 +75,31 @@ function shuffleArray(array) {
   return shuffledArray;
 }
 
+const Timer = styled.div`
+position: absolute;
+top: 10%;
+left: 5%;
+
+
+`
+
+
+
 const Quiz = () => {
   const [score, setScore] = useState(0);
-  const [userAnswer, setUserAnswer] = useState("");
+
   const [questionNumber, setQuestionNumber] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [newQuiz, setNewQuiz] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [animateClass, setAnimateClass] = useState("main-div");
 
   useEffect(() => {
     setQuestions(shuffleArray(data));
   }, [newQuiz]);
+  useEffect(() => {
+    setAnimateClass("main-div");
+  }, [questionNumber]);
 
   const changeQuestion = () => {
     if (questionNumber == questions.length - 1) {
@@ -104,23 +121,47 @@ const Quiz = () => {
     <>
       <Wrapper>
         <TopBar>
-          
           <TopBarHeading>AgentInsight Quiz</TopBarHeading>
-          
         </TopBar>
-        <Middle>
-          <QuestionDiv>
+        <Middle >
+        <Timer>
+        <CountdownCircleTimer
+          size={80}
+            key={questionNumber}
+            isPlaying
+            duration={25}
+            colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+            colorsTime={[15, 10, 5, 0]}
+            onComplete={() => ({
+              shouldRepeat: true,
+              delay: 0,
+              newInitialRemainingTime: 25,
+            })}
+            onUpdate={(remainingTime) => {
+              if (remainingTime == 0) {
+                changeQuestion();
+              }
+            }}
+            className={animateClass}
+          >
+            {CountDown}
+          </CountdownCircleTimer>
+        </Timer>
+          
+          <QuestionDiv className={animateClass}>
             <Question>{questions[questionNumber]?.question}</Question>
           </QuestionDiv>
-          <OptionsDiv>
+          <OptionsDiv className={animateClass}>
             {questions[questionNumber]?.options.map((item) => {
               return (
-                <Option key={item} onClick={()=>{
-                    setSelectedOption(item)
-                }}>
+                <Option
+                  key={item}
+                  onClick={() => {
+                    setSelectedOption(item);
+                    setUserAnswer(item);
+                  }}
+                >
                   <OptionCard
-                   
-                    
                     question={item}
                     isSelected={selectedOption == item}
                     option={questions[questionNumber].options.indexOf(item)}
@@ -131,7 +172,15 @@ const Quiz = () => {
           </OptionsDiv>
         </Middle>
         <Bottom>
-          <NextButton onClick={changeQuestion}>Change Question</NextButton>
+          <NextButton
+            onClick={() => {
+              changeQuestion();
+              setAnimateClass("");
+            }}
+            disabled={selectedOption != null ? false : true}
+          >
+            Change Question
+          </NextButton>
         </Bottom>
       </Wrapper>
     </>
