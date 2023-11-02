@@ -6,8 +6,10 @@ import OptionCard from "./OptionCard";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  height: 70vh;
+  
 `;
 
 const TopBar = styled.div`
@@ -24,28 +26,8 @@ const TopBarHeading = styled.span`
   }
 `;
 
-const ScoreDiv = styled.div`
-  display: flex;
 
-  align-items: center;
-  font-size: 1.8rem;
-  gap: 10px;
-  @media screen and (max-width: 1000px) {
-    font-size: 14px;
-  }
-`;
-const Score = styled.div`
-  text-align: center;
-  width: 50px;
-  padding: 8px;
-  border-radius: 4px;
-  background-color: lightgray;
-  font-size: 19px;
-  @media screen and (max-width: 1000px) {
-    padding: 4px;
-    font-size: 14px;
-  }
-`;
+
 
 const QuestionDiv = styled.div``;
 
@@ -68,7 +50,7 @@ const NextButton = styled.button``;
 const ProgressBar = styled.div``;
 
 const Middle = styled.div`
-  margin-top: 4rem;
+  
   display: flex;
   flex-direction: column;
   width: 50%;
@@ -96,6 +78,7 @@ const Quiz = () => {
   const [questionNumber, setQuestionNumber] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [newQuiz, setNewQuiz] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
 
   useEffect(() => {
     setQuestions(shuffleArray(data));
@@ -121,11 +104,9 @@ const Quiz = () => {
     <>
       <Wrapper>
         <TopBar>
-          <ScoreDiv>
-            Score: <Score> {score}</Score>
-          </ScoreDiv>
+          
           <TopBarHeading>AgentInsight Quiz</TopBarHeading>
-          <div></div>
+          
         </TopBar>
         <Middle>
           <QuestionDiv>
@@ -134,11 +115,15 @@ const Quiz = () => {
           <OptionsDiv>
             {questions[questionNumber]?.options.map((item) => {
               return (
-                <Option onClick={() => checkAnswer(item)}>
+                <Option key={item} onClick={()=>{
+                    setSelectedOption(item)
+                }}>
                   <OptionCard
-                    onClick={() => console.log("clicked")}
-                    key={item}
+                   
+                    
                     question={item}
+                    isSelected={selectedOption == item}
+                    option={questions[questionNumber].options.indexOf(item)}
                   />
                 </Option>
               );
