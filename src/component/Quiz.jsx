@@ -101,7 +101,7 @@ const Quiz = () => {
   const [newQuiz, setNewQuiz] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [animateClass, setAnimateClass] = useState("main-div");
-
+const [gameOver,setGameOver] = useState(false)
     const navigate = useNavigate()
 
   useEffect(() => {
@@ -113,7 +113,7 @@ const Quiz = () => {
   }, [questionNumber]);
 
   const changeQuestion = () => {
-    if (questionNumber == questions.length - 1) {
+    if (questionNumber == 9) {
       setNewQuiz(!newQuiz);
     } else {
       setQuestionNumber((prev) => prev + 1);
@@ -125,13 +125,18 @@ const Quiz = () => {
       setScore((score) => score + 1);
       
     }
+    if(questionNumber==9){
+        setGameOver(true)
+    }
 
   };
 
-  const finishQuiz = ()=>{
-    
-    navigate(`/result/${score}`)
-  }
+  
+  useEffect(()=>{
+    if(gameOver){
+        navigate(`/result/${score}`)
+    }
+  },[gameOver])
  
   return (
     <>
@@ -141,17 +146,16 @@ const Quiz = () => {
         </TopBar>
         <Middle >
         <Timer>
-        <CountDown questionNumber={questionNumber} setQuestionNumber={setQuestionNumber}/>
+        <CountDown questionNumber={questionNumber} setQuestionNumber={setQuestionNumber} questions={questions} selectedOption={selectedOption} setScore={setScore} score={score}/>
         </Timer>
-          <MainQuiz animateClass={animateClass} questions={questions} questionNumber={questionNumber} selectedOption={selectedOption} setSelectedOption={setSelectedOption}/>
+          <MainQuiz  animateClass={animateClass} questions={questions} questionNumber={questionNumber} selectedOption={selectedOption} setSelectedOption={setSelectedOption}/>
           
         </Middle>
         <Bottom>
         <ProgressBar progress={questionNumber}/>
-          {questionNumber==10?(<NextButton
+          {questionNumber==9?(<NextButton
             onClick={() => { 
               checkAnswer(selectedOption) 
-
               finishQuiz();
             }}
             disabled={selectedOption != null ? false : true}
